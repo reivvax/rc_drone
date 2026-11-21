@@ -11,6 +11,6 @@ PYTHON   ?= uv run
 flash:
 	. $(IDF_PATH)/export.sh > /dev/null && idf.py -C $(FW_DIR) -p $(PORT) build flash
 
-## Receive and display camera frames (no saving)
+## Receive and display camera frames (no saving). Extra flags: make capture ARGS="--video"
 capture:
-	$(PYTHON) tools/serial_capture.py --port $(PORT)
+	$(PYTHON) tools/serial_capture.py --port $(PORT) $(ARGS)
