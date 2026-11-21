@@ -1,0 +1,30 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Local data / recordings
+recordings/
+*.mp4
+*.avi
+logs/
+
+# Per-camera calibration is device-specific; commit deliberately if wanted
+config/calibration_*.yaml
+
+.claude/settings.local.json
+.env
+
+# ESP-IDF firmware: downloaded components and generated files
+# (dependencies.lock and sdkconfig ARE committed; they pin versions/config)
+managed_components/
+sdkconfig.old
+
+captures/
+docs/
