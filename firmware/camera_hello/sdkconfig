@@ -977,6 +977,15 @@ CONFIG_PARTITION_TABLE_MD5=y
 # end of Partition Table
 
 #
+# Camera Hello
+#
+# default:
+CONFIG_CAM_HMIRROR=y
+# default:
+# CONFIG_CAM_VFLIP is not set
+# end of Camera Hello
+
+#
 # Compiler options
 #
 # default:

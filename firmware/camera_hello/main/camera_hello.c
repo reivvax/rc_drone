@@ -41,7 +41,7 @@ static camera_config_t cam_cfg = {
 
     .pixel_format = PIXFORMAT_JPEG,    // sensor compresses on-chip, so frames are small
     .frame_size   = FRAMESIZE_VGA,     // 640x480
-    .jpeg_quality = 16,                // 0-63, lower = better quality / bigger
+    .jpeg_quality = 4,                // 0-63, lower = better quality / bigger
     .jpeg_buffer_size = 128 * 1024,    // default is w*h/5 (60 KB at VGA)
     .fb_count     = 2,                 // 2 buffers: camera fills one while we send the other
     .fb_location  = CAMERA_FB_IN_PSRAM,
@@ -49,6 +49,18 @@ static camera_config_t cam_cfg = {
 };
 
 static const char *TAG = "cam";
+
+// Kconfig bools that are "n" are not defined at all, so map them to 0/1 here.
+#ifdef CONFIG_CAM_HMIRROR
+#define CAM_HMIRROR 1
+#else
+#define CAM_HMIRROR 0
+#endif
+#ifdef CONFIG_CAM_VFLIP
+#define CAM_VFLIP 1
+#else
+#define CAM_VFLIP 0
+#endif
 
 #define FRAME_PERIOD_MS 0     // 0 = unbounded (as fast as camera + USB allow); 100 = 10 fps
 
@@ -107,6 +119,12 @@ void app_main(void) {
     usb_serial_jtag_vfs_use_driver();
 
     ESP_ERROR_CHECK(esp_camera_init(&cam_cfg));
+
+    // The sensor mirrors/flips the image itself (no CPU cost). Set in menuconfig
+    // ("Camera Hello" menu). A mirrored image breaks ArUco detection.
+    sensor_t *sensor = esp_camera_sensor_get();
+    sensor->set_hmirror(sensor, CAM_HMIRROR);
+    sensor->set_vflip(sensor, CAM_VFLIP);
     
     while (SKIPPED_FRAMES--) {
         camera_fb_t* fb = esp_camera_fb_get();

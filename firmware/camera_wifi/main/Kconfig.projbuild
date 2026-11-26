@@ -1,0 +1,76 @@
+menu "Camera Wi-Fi Stream"
+
+    choice CAM_WIFI_MODE
+        prompt "Wi-Fi mode"
+        default CAM_WIFI_MODE_STA
+        help
+            Station: the camera joins an existing network (router, phone hotspot,
+            or later the drone computer's hotspot).
+            Access point: the camera creates its own network; connect the PC to it.
+
+        config CAM_WIFI_MODE_STA
+            bool "Station (join existing network)"
+        config CAM_WIFI_MODE_AP
+            bool "Access point (camera creates network)"
+    endchoice
+
+    config CAM_WIFI_SSID
+        string "Network name (SSID) to join"
+        depends on CAM_WIFI_MODE_STA
+        default ""
+    config CAM_WIFI_PASSWORD
+        string "Network password (empty = open network)"
+        depends on CAM_WIFI_MODE_STA
+        default ""
+
+    config CAM_AP_SSID
+        string "Access point name (SSID)"
+        depends on CAM_WIFI_MODE_AP
+        default "xiao-cam"
+    config CAM_AP_PASSWORD
+        string "Access point password (8+ chars, empty = open)"
+        depends on CAM_WIFI_MODE_AP
+        default "xiaocam123"
+    config CAM_AP_CHANNEL
+        int "Access point channel"
+        depends on CAM_WIFI_MODE_AP
+        range 1 13
+        default 6
+
+    config CAM_HOSTNAME
+        string "Hostname (reachable as <hostname>.local)"
+        default "xiao-cam"
+
+    choice CAM_FRAMESIZE
+        prompt "Initial frame size (can be changed at runtime via /control)"
+        default CAM_FRAMESIZE_VGA
+        config CAM_FRAMESIZE_QVGA
+            bool "QVGA 320x240"
+        config CAM_FRAMESIZE_VGA
+            bool "VGA 640x480"
+        config CAM_FRAMESIZE_SVGA
+            bool "SVGA 800x600"
+        config CAM_FRAMESIZE_HD
+            bool "HD 1280x720"
+    endchoice
+
+    config CAM_JPEG_QUALITY
+        int "Initial JPEG quality (lower = better/bigger)"
+        range 4 63
+        default 12
+
+    config CAM_HMIRROR
+        bool "Mirror image horizontally (left-right)"
+        default y
+        help
+            This board's camera delivers a mirrored image, which breaks ArUco
+            detection (a mirrored marker matches no id) and would invert the
+            horizontal direction of tracking. If text in the image then reads
+            correctly, keep this. If the image is upside down instead, disable
+            this and enable "Flip image vertically".
+
+    config CAM_VFLIP
+        bool "Flip image vertically (upside down)"
+        default n
+
+endmenu

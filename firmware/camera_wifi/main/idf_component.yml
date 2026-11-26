@@ -1,0 +1,5 @@
+dependencies:
+  idf:
+    version: '>=5.1'
+  espressif/esp32-camera: '*'
+  espressif/mdns: '*'     # lets the PC find the camera as http://<hostname>.local

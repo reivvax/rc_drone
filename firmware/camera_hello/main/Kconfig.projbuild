@@ -1,0 +1,17 @@
+menu "Camera Hello"
+
+    config CAM_HMIRROR
+        bool "Mirror image horizontally (left-right)"
+        default y
+        help
+            This board's camera delivers a mirrored image, which breaks ArUco
+            detection (a mirrored marker matches no id) and would invert the
+            horizontal direction of tracking. If text in the image then reads
+            correctly, keep this. If the image is upside down instead, disable
+            this and enable "Flip image vertically".
+
+    config CAM_VFLIP
+        bool "Flip image vertically (upside down)"
+        default n
+
+endmenu

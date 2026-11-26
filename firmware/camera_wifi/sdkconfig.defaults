@@ -1,0 +1,18 @@
+# Applied when sdkconfig is (re)generated. Board: XIAO ESP32S3 Sense.
+# Wi-Fi credentials are NOT here: set them with `idf.py menuconfig`
+# ("Camera Wi-Fi Stream" menu). They end up in sdkconfig, which is git-ignored.
+CONFIG_IDF_TARGET="esp32s3"
+CONFIG_ESPTOOLPY_FLASHSIZE_8MB=y
+CONFIG_SPIRAM=y
+CONFIG_SPIRAM_MODE_OCT=y
+CONFIG_SPIRAM_SPEED_80M=y
+CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG=y
+CONFIG_ESP_CONSOLE_SECONDARY_NONE=y
+
+# Throughput
+CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ_240=y
+# Let Wi-Fi / lwIP buffers live in PSRAM, leaving internal RAM for DMA
+CONFIG_SPIRAM_TRY_ALLOCATE_WIFI_LWIP=y
+# Larger TCP send buffer (default 5760): fewer stalls while pushing 15-40 KB frames
+CONFIG_LWIP_TCP_SND_BUF_DEFAULT=32768
+CONFIG_ESP_WIFI_DYNAMIC_TX_BUFFER_NUM=64
