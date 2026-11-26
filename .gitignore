@@ -25,6 +25,9 @@ config/calibration_*.yaml
 # (dependencies.lock and sdkconfig ARE committed; they pin versions/config)
 managed_components/
 sdkconfig.old
+# camera_wifi's sdkconfig holds the Wi-Fi password; only sdkconfig.defaults is committed
+firmware/camera_wifi/sdkconfig
 
 captures/
 docs/
+markers/
